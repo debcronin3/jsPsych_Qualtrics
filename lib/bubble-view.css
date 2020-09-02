@@ -5,7 +5,7 @@
  * experiments look polished without any additional styles.
  */
 
- @import url("https://cdn.jsdelivr.net/gh/kywch/BubbleView_jsPsych/lib/jspsych.css");
+ @import url("https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/jspsych.css");
 
 
 /* basic text properties */
@@ -86,7 +86,7 @@ p {
 
 .block-text {
     width: 100%;
-    height 100vw;
+    height: 100vw;
     text-align: justify;
     margin: 0 auto;
     margin-bottom: 1em;
@@ -96,7 +96,7 @@ p {
 
 .center-block-text {
     width: 100%;
-    height 100vw;
+    height: 100vw;
     text-align: center;
     margin: 0 auto;
     margin-bottom: 1em;
