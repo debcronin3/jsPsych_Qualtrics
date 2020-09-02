@@ -4,18 +4,19 @@
 <head>
   <title>BubbleView Task</title>
   <meta name="robots" content="noindex">
-  <link rel="stylesheet" href="https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/bubble-view.css">
+  <!-- <link rel="stylesheet" href="https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/bubble-view.css"> -->
+  <link rel="stylesheet" href="https://debcronin3.github.io/jsPsych_Qualtrics/lib/bubble-view.css">
   </link>
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-  <script src="https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/jspsych.js"></script>
-  <script src="https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/jspsych-bubble-view.js"></script>
-  <script src="https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/jspsych-instructions.js"></script>
-  <script src="https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/jspsych-fullscreen.js"></script>
-  <script src="https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/jspsych-survey-text.js"></script>
-  <script src="https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/jspsych-single-image.js"></script>
-  <script src="https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/jspsych-html-button-response.js"></script>
-  <script type="text/javascript" src="https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/bubble-view_main_DAC.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib//jspsych.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib//jspsych-bubble-view.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib//jspsych-instructions.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib//jspsych-fullscreen.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib//jspsych-survey-text.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib//jspsych-single-image.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib//jspsych-html-button-response.js"></script>
+  <script type="text/javascript" src="https://debcronin3.github.io/jsPsych_Qualtrics/lib//bubble-view_main_DAC.js"></script>
 </head>
 
 <body>
@@ -30,7 +31,7 @@
   /* ************************************ */
   /* Instruction-related scripts */
   /* ************************************ */
-  var instr_url = 'https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/instructions/';
+  var instr_url = 'https://debcronin3.github.io/jsPsych_Qualtrics/instructions/';
   var instr_imglist = [];
   for (var ii = 0; ii < 5; ii++) {
     instr_imglist.push(instr_url + 'Slide' + (ii + 1).toString() + '.PNG');
@@ -62,11 +63,11 @@
 
   // stimulus definition
   // for the images that have 'a' in the fourth place, we will ask Ps to describe those
-  var pracImg_src = 'https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/images_prac/';
+  var pracImg_src = 'https://debcronin3.github.io/jsPsych_Qualtrics/images_prac/';
   var pracImg_ext = 'png';
   var pracImg_set = ["airport"] /*, "blue_river", "brick_apartment"]; */
   var pracImg_attn = ["airport"];
-  var mainImg_src = 'https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/images_main/';
+  var mainImg_src = 'https://debcronin3.github.io/jsPsych_Qualtrics/images_main/';
   var mainImg_ext = 'jpg';
   var mainImg_set = [
     "basketball_net" , "bell", "bin"] /*, "blender", "boat", "calculator", "cap", "CD",
@@ -86,8 +87,6 @@
   });
 
   jspsych_session.push(generate_instruction_page(instr_imglist));
-
-  debugger
 
   jspsych_session.push({
     timeline: generate_practice_block(pracImg_src, shuffle(pracImg_set), pracImg_ext, pracImg_attn)
