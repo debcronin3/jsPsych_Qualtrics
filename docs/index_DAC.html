@@ -79,7 +79,6 @@
   ]; */
   var mainImg_attn = ["basketball_net"]; // test images
   var testImg_set = mainImg_set.concat(["broom","bucket","bust"]);
-  console.log(testImg_set);
 
   var jspsych_session = [];
 
@@ -101,7 +100,7 @@
 
   jspsych_session.push({
     timeline: generate_test_block(mainImg_src, shuffle(testImg_set),mainImg_ext)
-  })
+  });
 
   // exit the full screen
   jspsych_session.push({
