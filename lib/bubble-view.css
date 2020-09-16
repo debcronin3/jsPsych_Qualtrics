@@ -89,7 +89,7 @@ p {
     /* height: 100vw; */
     text-align: center;
     margin: 0 auto;
-    /*margin-bottom: 1em; */
+    margin-bottom: 1em;
     font-size: 2.5vh;
     line-height: 130%;
 }
