@@ -77,6 +77,7 @@
     "elephant", "fan", "fire_extinguisher", "flag", "fruit_bowl", "funnel", "glass", "globe"
   ]; */
   var mainImg_attn = ["basketball_net"];
+  var testImg_set = mainImg_set.concat(["broom","bucket","bust"]);
 
   var jspsych_session = [];
 
@@ -95,6 +96,10 @@
   jspsych_session.push({
     timeline: generate_main_block(mainImg_src, shuffle(mainImg_set), mainImg_ext, mainImg_attn)
   });
+
+  jspsych_session.push({
+    timeline: generate_test_block(main_Img_src, shuffle(testImg_set),mainImg_ext)
+  })
 
   // exit the full screen
   jspsych_session.push({
