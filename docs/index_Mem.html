@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>BubbleView Task</title>
+  <meta name="robots" content="noindex">
+  <!-- <link rel="stylesheet" href="https://raw.githubusercontent.com/debcronin3/jsPsych_Qualtrics/master/lib/bubble-view.css"> -->
+  <link rel="stylesheet" href="https://debcronin3.github.io/jsPsych_Qualtrics/lib/bubble-view.css">
+  </link>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib/jspsych.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib/jspsych-bubble-view.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib/jspsych-instructions.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib/jspsych-fullscreen.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib/jspsych-survey-text.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib/jspsych-single-image.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib/jspsych-html-button-response.js"></script>
+  <script src="https://debcronin3.github.io/jsPsych_Qualtrics/lib/jspsych-image-button-response.js"></script>
+  <script type="text/javascript" src="https://debcronin3.github.io/jsPsych_Qualtrics/lib/bubble-view_main_Mem.js"></script>
+</head>
+
+<body>
+<script>
+  // set the display stage
+  $('<div class = display_stage_background></div>').appendTo('body');
+  $('<div class = display_stage></div>').appendTo('body');
+
+  sbjId = "";
+  data_dir = "data01";
+
+  /* ************************************ */
+  /* Instruction-related scripts */
+  /* ************************************ */
+  var instr_url = 'https://debcronin3.github.io/jsPsych_Qualtrics/instructions/Mem';
+  var instr_imglist = [];
+  for (var ii = 0; ii < 5; ii++) {
+    instr_imglist.push(instr_url + 'Slide' + (ii + 1).toString() + '.PNG');
+  }
+
+  function generate_instruction_page(imglist) {
+    var instructions_page = {
+      type: 'instructions',
+      pages: function () {
+        var pages = [];
+        for (var ii = 0; ii < imglist.length; ii++) {
+          pages.push('<img class="resize" src="' + imglist[ii] + '">');
+        }
+        pages.push(
+          '<div class = centerbox><p class = block-text>You can read the instructions again by clicking the <strong>Previous</strong> button.</p>' +
+          '<p class = block-text>Clicking the <strong>Next</strong> button will start the practice trials.</p></div>'
+        );
+        return pages;
+      },
+      data: {
+        exp_stage: 'task_instructions_page'
+      },
+      allow_keys: false,
+      show_clickable_nav: true,
+      show_page_number: true
+    };
+    return instructions_page;
+  }
+
+  // stimulus definition
+  // for the images that have 'a' in the fourth place, we will ask Ps to describe those
+  var pracImg_src = 'https://debcronin3.github.io/jsPsych_Qualtrics/images_prac/';
+  var pracImg_ext = 'png';
+  var pracImg_set = ["blue_river","brick_apartment"]; /*, "airport"]; */
+  var pracImg_attn = ["airport"];
+  var mainImg_src = 'https://debcronin3.github.io/jsPsych_Qualtrics/images_main/';
+  var mainImg_ext = 'jpg';
+  var mainImg_set = [
+    "basketball_net" , "bell", "bin"] /*, "blender", "boat", "calculator", "cap", "CD",
+    "chair", "clock", "coffeemaker", "coke_can", "cracker", "dice", "disco_ball", "dog",
+    "duck", "dustpan", "fire_hydrant", "flowers", "gnome", "bongo_drums", "book", "bowl",
+    "briefcase", "broom", "bucket", "bust", "car", "cat", "chainsaw", "computer",
+    "elephant", "fan", "fire_extinguisher", "flag", "fruit_bowl", "funnel", "glass", "globe"
+  ]; */
+  var mainImg_attn = ["basketball_net"]; // test images
+  var shuff_mainImg = shuffle(mainImg_set).slice(0,2)
+  var testImg_set = shuff_mainImg.concat(["arcade","candy_store"]); /*, "MDS160", "MDS188", 
+  "modern_livingroom","plant_bathroom","red_bathroom","shopping_mall","tan_kitchen","wood_kitchen",
+  "distractor_atticRoom","distractor_artstudio","distractor_bar","distractor_bathroom","distractor_bedroom",
+  "distractor_closet","distractor_desktop",distractor_diningroom","distractor_factory","distractor_garage" */
+
+  var jspsych_session = [];
+
+  // use the full screen
+  jspsych_session.push({
+    type: 'fullscreen',
+    fullscreen_mode: true
+  });
+
+  jspsych_session.push(generate_instruction_page(instr_imglist));
+
+  jspsych_session.push({
+    timeline: generate_practice_block(pracImg_src, shuffle(pracImg_set), pracImg_ext, pracImg_attn)
+  });
+
+  jspsych_session.push({
+    timeline: generate_main_block(mainImg_src, shuffle(mainImg_set), mainImg_ext, mainImg_attn)
+  });
+
+  jspsych_session.push({
+    timeline: generate_test_block(mainImg_src, shuffle(testImg_set),mainImg_ext)
+  });
+
+  // exit the full screen
+  jspsych_session.push({
+    type: 'fullscreen',
+    fullscreen_mode: false
+  });
+
+  jsPsych.init({
+    timeline: jspsych_session,
+    preload_images: instr_imglist,
+
+    display_element: document.querySelector('.display_stage'),
+
+    on_data_update: function (data) { // each time the data is updated:
+      // write the current window resolution to the data
+      data.win_res = window.innerWidth + 'x' + window.innerHeight;
+      data.fullscr = fullscr_ON;
+    },
+
+    on_interaction_data_update: function (data) {
+      //interaction data logs if participants leaves the browser window or exits full screen mode
+      interaction = data.event;
+      if (interaction.includes("fullscreen")) {
+        // some unhandy coding to circumvent a bug in jspsych that logs fullscreenexit when actually entering
+        if (fullscr_ON == 'no') {
+          fullscr_ON = 'yes';
+          return fullscr_ON;
+        } else if (fullscr_ON == 'yes') {
+          fullscr_ON = 'no';
+          return fullscr_ON;
+        }
+      } else if (interaction == 'blur' || interaction == 'focus') {
+        focus = interaction;
+        return focus;
+      }
+    },
+    
+    exclusions: { // browser window needs to have these dimensions, if not, participants get the chance to maximize their window, if they don't support this resolution when maximized they can't particiate.
+        min_width: 1024,
+        min_height: 768
+    },
+
+    on_finish: function () {
+    /*  save_data();
+      if (flag_debug) {
+        console.log(jsPsych.data.get().json());
+       }
+
+      
+        jsPsych.data.displayData();
+      */
+       
+       const test = async () => await fetch('http://192.168.1.20:5000/data', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json'
+         },
+         body: jsPsych.data.get().json()
+       })
+
+       test()
+
+       console.log('fetch sent')
+
+    }
+  });
+</script>
+
+  
+</body>
+
+</html>
