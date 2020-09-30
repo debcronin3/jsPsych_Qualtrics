@@ -8,4 +8,4 @@ index_DAC.html will run the experiment in a browser. To put code on qualtrics, t
 the JS editor for a survey question on Qualtrics. In addition, bubble-view.css needs to be linked in the Qualtrics html editor for the same quesiton.
 See Kyoung Choe's jsPsych -> Qualtrics tutorial for more information.
 
-To collect BubbleView data, you will need to set up a database to store the results of the experiment and link to it in the index_DAC.html file.
+To collect BubbleView data, you will need to set up a server and a database. The server passes the data to the database, which stores the results of the experiment.
